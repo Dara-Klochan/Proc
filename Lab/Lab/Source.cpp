@@ -61,6 +61,30 @@ void Clear_Container(Container* Head) {
     }
 }
 
+void Sort(Container* Head) {
+    if (Head->Len > 1) {
+        Container* First = Head;
+        Container* Second = Head->Next;
+
+        Container* Temp = new Container;
+
+        for (int i = 0; i < Head->Len - 1; i++) {
+            for (int j = 0; j < Head->Len - i - 1; j++) {
+                if (Compare(First->Cont, Second->Cont)) {
+                    Temp->Cont = First->Cont;
+                    First->Cont = Second->Cont;
+                    Second->Cont = Temp->Cont;
+                }
+
+                Second = Second->Next;
+            }
+
+            First = First->Next;
+            Second = First->Next;
+        }
+    }
+}
+
 Matrix* In_Matrix(ifstream& ifst) {
     Matrix* M = NULL; //Создаем указатель на матрицу
     int K;
@@ -112,6 +136,10 @@ int Sum_Matrix(Matrix* M) {
     else {
         return -1;
     }
+}
+
+bool Compare(Matrix* First, Matrix* Second) {
+    return Sum_Matrix(First) > Sum_Matrix(Second);
 }
 
 Two_dimensional_array* In_Two_dimensional_array(int N, ifstream& ifst) {

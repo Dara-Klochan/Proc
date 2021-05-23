@@ -29,6 +29,9 @@ void Out_Matrix(Matrix* M, ofstream& ofst);
 //Функция подсчет суммы элементов матрицы
 int Sum_Matrix(Matrix* M);
 
+//Функция сравнения сумм элементов матриц
+bool Compare(Matrix* First, Matrix* Second);
+
 //Контейнер
 struct Container {
     Container* Next, * Prev; //Указатели на след. и пред. элементы контейнера
@@ -47,6 +50,9 @@ void Out_Container(Container* Head, ofstream& ofst);
 
 //Функция очистки контейнера
 void Clear_Container(Container* Head);
+
+//Функция сортировки контейнера
+void Sort(Container* Head);
 
 //Структура двумерного массива
 struct Two_dimensional_array {

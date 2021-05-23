@@ -21,7 +21,9 @@ int main(int argc, char* argv[])
 
     In_Container(Head, ifst);
 
-    ofst << "Filled container. " << endl;
+    Sort(Head);
+
+    ofst << "Filled and sorted container. " << endl;
 
     Out_Container(Head, ofst);
 
