@@ -70,6 +70,20 @@ Matrix* In_Matrix(ifstream& ifst) {
         M = new Matrix(); //Выделяем память под матрицу
         M->K = TWO_DIMENSIONAL_ARRAY; //Записываем тип матрицы
 
+        int K_Out = 0;
+
+        ifst >> K_Out; //Считываем способ вывода матрицы
+
+        if (K_Out == 1) {
+            M->K_O = BY_LINE;
+        }
+        else if (K_Out == 2) {
+            M->K_O = BY_COLUMN;
+        }
+        else if (K_Out == 3) {
+            M->K_O = ONE_DIMENSIONAL;
+        }
+
         ifst >> M->N; //Считываем размерность матрицы
 
         M->Obj = In_Two_dimensional_array(M->N, ifst); //Считываем матрицу
@@ -77,6 +91,20 @@ Matrix* In_Matrix(ifstream& ifst) {
     else if (K == 2) {
         M = new Matrix(); //Выделяем память под матрицу
         M->K = DIAGONAL_MATRIX; //Записываем тип матрицы
+
+        int K_Out = 0;
+
+        ifst >> K_Out; //Считываем способ вывода матрицы
+
+        if (K_Out == 1) {
+            M->K_O = BY_LINE;
+        }
+        else if (K_Out == 2) {
+            M->K_O = BY_COLUMN;
+        }
+        else if (K_Out == 3) {
+            M->K_O = ONE_DIMENSIONAL;
+        }
 
         ifst >> M->N; //Считываем размерность матрицы
 
@@ -91,10 +119,10 @@ Matrix* In_Matrix(ifstream& ifst) {
 
 void Out_Matrix(Matrix* M, ofstream& ofst) {
     if (M->K == TWO_DIMENSIONAL_ARRAY) {
-        Out_Two_dimensional_array(M->N, (Two_dimensional_array*)M->Obj, ofst); //Выводим обычный двумерный массив
+        Out_Two_dimensional_array(M->N, M->K_O, (Two_dimensional_array*)M->Obj, ofst); //Выводим обычный двумерный массив
     }
     else if (M->K == DIAGONAL_MATRIX) {
-        Out_Diagonal_matrix(M->N, (Diagonal_matrix*)M->Obj, ofst); //Выводим диагональную матрицу
+        Out_Diagonal_matrix(M->N, M->K_O, (Diagonal_matrix*)M->Obj, ofst); //Выводим диагональную матрицу
     }
     else {
         ofst << "Incorrect element!" << endl;
@@ -119,12 +147,32 @@ Two_dimensional_array* In_Two_dimensional_array(int N, ifstream& ifst) {
     return T_d_a;
 }
 
-void Out_Two_dimensional_array(int N, Two_dimensional_array* T_d_a, ofstream& ofst) {
+void Out_Two_dimensional_array(int N, Key_Out K_O, Two_dimensional_array* T_d_a, ofstream& ofst) {
     ofst << "It's two dimensional matrix with dimension = " << N << endl; //Выводим размерность массива
 
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            ofst << T_d_a->Array[i][j] << " "; //Выводим элементы массива
+    if (K_O == BY_LINE) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                ofst << T_d_a->Array[i][j] << " ";
+            }
+
+            ofst << endl;
+        }
+    }
+    else if (K_O == BY_COLUMN) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                ofst << T_d_a->Array[j][i] << " ";
+            }
+
+            ofst << endl;
+        }
+    }
+    else if (K_O == ONE_DIMENSIONAL) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                ofst << T_d_a->Array[i][j] << " ";
+            }
         }
 
         ofst << endl;
@@ -144,16 +192,46 @@ Diagonal_matrix* In_Diagonal_matrix(int N, ifstream& ifst)
     return D_m;
 }
 
-void Out_Diagonal_matrix(int N, Diagonal_matrix* D_m, ofstream& ofst) {
+void Out_Diagonal_matrix(int N, Key_Out K_O, Diagonal_matrix* D_m, ofstream& ofst) {
     ofst << "It's diagonal matrix with dimension = " << N << endl; //Выводим размерность матрицы
 
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            if (i == j) {
-                ofst << D_m->Array[i] << " "; //Выводим элемент матрицы; (i == j) -> только по диагонали
+    if (K_O == BY_LINE) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (i == j) {
+                    ofst << D_m->Array[i] << " ";
+                }
+                else {
+                    ofst << "0 ";
+                }
             }
-            else {
-                ofst << "0 "; //(i != j) -> не диагональ, выводим нули
+
+            ofst << endl;
+        }
+    }
+    else if (K_O == BY_COLUMN) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (i == j) {
+                    ofst << D_m->Array[j] << " ";
+                }
+                else {
+                    ofst << "0 ";
+                }
+            }
+
+            ofst << endl;
+        }
+    }
+    else if (K_O == ONE_DIMENSIONAL) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (i == j) {
+                    ofst << D_m->Array[i] << " ";
+                }
+                else {
+                    ofst << "0 ";
+                }
             }
         }
 
