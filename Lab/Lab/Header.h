@@ -26,6 +26,9 @@ Matrix* In_Matrix(ifstream& ifst);
 //Функция вывода матрица
 void Out_Matrix(Matrix* M, ofstream& ofst);
 
+//Функция подсчет суммы элементов матрицы
+int Sum_Matrix(Matrix* M);
+
 //Контейнер
 struct Container {
     Container* Next, * Prev; //Указатели на след. и пред. элементы контейнера
@@ -56,6 +59,9 @@ Two_dimensional_array* In_Two_dimensional_array(int N, ifstream& ifst);
 //Функция вывода двумерного массива
 void Out_Two_dimensional_array(int N, Two_dimensional_array* T_d_a, ofstream& ofst);
 
+//Функция подсчета суммы элементов двумерного массива
+int Sum_Two_dimensional_array(int N, Two_dimensional_array* T_d_a);
+
 //Структура диагональной матрицы
 struct Diagonal_matrix {
     int* Array;
@@ -66,5 +72,8 @@ Diagonal_matrix* In_Diagonal_matrix(int N, ifstream& ifst);
 
 //Функция вывода диагональной матрицы
 void Out_Diagonal_matrix(int N, Diagonal_matrix* D_m, ofstream& ofst);
+
+//Функция подсчета суммы элементов диагональной матрицы
+int Sum_Diagonal_matrix(int N, Diagonal_matrix* D_m);
 
 #endif //HEADER_H

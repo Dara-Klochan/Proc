@@ -47,7 +47,8 @@ void Out_Container(Container* Head, ofstream& ofst) {
     for (int i = 0; i < Head->Len; i++) {
         ofst << i << ": ";
         Out_Matrix(Temp->Cont, ofst);
-        ofst << endl;
+        ofst << "Sum of matrix elements = " << Sum_Matrix(Temp->Cont);
+        ofst << endl << endl;
         Temp = Temp->Next;
     }
 }
@@ -101,6 +102,18 @@ void Out_Matrix(Matrix* M, ofstream& ofst) {
     }
 }
 
+int Sum_Matrix(Matrix* M) {
+    if (M->K == TWO_DIMENSIONAL_ARRAY) {
+        return Sum_Two_dimensional_array(M->N, (Two_dimensional_array*)M->Obj); //Подсчет суммы элементов обычного двумерного массива
+    }
+    else if (M->K == DIAGONAL_MATRIX) {
+        return Sum_Diagonal_matrix(M->N, (Diagonal_matrix*)M->Obj); //Подсчет суммы элементов диагональной матрицы
+    }
+    else {
+        return -1;
+    }
+}
+
 Two_dimensional_array* In_Two_dimensional_array(int N, ifstream& ifst) {
     Two_dimensional_array* T_d_a = new Two_dimensional_array();
 
@@ -131,6 +144,18 @@ void Out_Two_dimensional_array(int N, Two_dimensional_array* T_d_a, ofstream& of
     }
 }
 
+int Sum_Two_dimensional_array(int N, Two_dimensional_array* T_d_a) {
+    int Sum = 0;
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            Sum += T_d_a->Array[i][j];
+        }
+    }
+
+    return Sum;
+}
+
 Diagonal_matrix* In_Diagonal_matrix(int N, ifstream& ifst)
 {
     Diagonal_matrix* D_m = new Diagonal_matrix();
@@ -159,4 +184,14 @@ void Out_Diagonal_matrix(int N, Diagonal_matrix* D_m, ofstream& ofst) {
 
         ofst << endl;
     }
+}
+
+int Sum_Diagonal_matrix(int N, Diagonal_matrix* D_m) {
+    int Sum = 0;
+
+    for (int i = 0; i < N; i++) {
+        Sum += D_m->Array[i];
+    }
+
+    return Sum;
 }
