@@ -45,6 +45,9 @@ void Out_Container(Container* Head, ofstream& ofst);
 //Функция очистки контейнера
 void Clear_Container(Container* Head);
 
+//Функция вывода только двумерных массивов
+void Out_Only_Two_Dim(Container* Head, ofstream& ofst);
+
 //Структура двумерного массива
 struct Two_dimensional_array {
     int** Array;

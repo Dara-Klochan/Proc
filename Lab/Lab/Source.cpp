@@ -60,6 +60,22 @@ void Clear_Container(Container* Head) {
     }
 }
 
+void Out_Only_Two_Dim(Container* Head, ofstream& ofst) {
+    ofst << "Only Two Dimensional arrays." << endl << endl;
+
+    Container* Temp = Head;
+
+    for (int i = 0; i < Head->Len; i++) {
+        if (Temp->Cont->K == TWO_DIMENSIONAL_ARRAY) { //ѕроверка того, что матрица - обычный думерный массив
+            ofst << i << ": ";
+            Out_Matrix(Temp->Cont, ofst);
+            ofst << endl;
+        }
+
+        Temp = Temp->Next;
+    }
+}
+
 Matrix* In_Matrix(ifstream& ifst) {
     Matrix* M = NULL; //—оздаем указатель на матрицу
     int K;
