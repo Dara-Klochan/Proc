@@ -82,6 +82,14 @@ Matrix* In_Matrix(ifstream& ifst) {
 
         M->Obj = In_Diagonal_matrix(M->N, ifst); //Считываем матрицу
     }
+    else if (K == 3) {
+        M = new Matrix(); //Выделяем память под матрицу
+        M->K = TRIANGULAR_MATRIX; //Записываем тип матрицы
+
+        ifst >> M->N; //Считываем размерность матрицы
+
+        M->Obj = In_Triangular_matrix(M->N, ifst); //Считываем матрицу
+    }
     else {
         return 0;
     }
@@ -95,6 +103,9 @@ void Out_Matrix(Matrix* M, ofstream& ofst) {
     }
     else if (M->K == DIAGONAL_MATRIX) {
         Out_Diagonal_matrix(M->N, (Diagonal_matrix*)M->Obj, ofst); //Выводим диагональную матрицу
+    }
+    else if (M->K == TRIANGULAR_MATRIX) {
+        Out_Triangular_matrix(M->N, (Triangular_matrix*)M->Obj, ofst); //Выводим треугольную матрицу
     }
     else {
         ofst << "Incorrect element!" << endl;
@@ -154,6 +165,47 @@ void Out_Diagonal_matrix(int N, Diagonal_matrix* D_m, ofstream& ofst) {
             }
             else {
                 ofst << "0 "; //(i != j) -> не диагональ, выводим нули
+            }
+        }
+
+        ofst << endl;
+    }
+}
+
+Triangular_matrix* In_Triangular_matrix(int N, ifstream& ifst) {
+    //Корректируем размер треугольной матрицы
+    int Temp_N = N;
+    int Array_size = 0;
+
+    while (Temp_N) {
+        Array_size += Temp_N;
+        Temp_N--;
+    }
+
+    Triangular_matrix* T_m = new Triangular_matrix();
+
+    T_m->Array = new int[Array_size];
+
+    for (int i = 0; i < Array_size; i++) {
+        ifst >> T_m->Array[i]; //Записываем элементы матрицы
+    }
+
+    return T_m;
+}
+
+void Out_Triangular_matrix(int N, Triangular_matrix* T_m, ofstream& ofst) {
+    ofst << "It's triangular matrix with dimension = " << N << endl;
+
+    int Array_index = 0; //Иднекс для прохода ненулевых элементов матрицы
+
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++) {
+            if (i >= j) {
+                ofst << T_m->Array[Array_index] << " ";
+                Array_index++;
+            }
+            else {
+                ofst << "0 ";
             }
         }
 
