@@ -10,7 +10,8 @@ using namespace std;
 //Иднетификатор матрицы
 enum Key {
     DIAGONAL_MATRIX, //Диагональная матрицы
-    TWO_DIMENSIONAL_ARRAY //Двумерный массив
+    TWO_DIMENSIONAL_ARRAY, //Двумерный массив
+    TRIANGULAR_MATRIX //Треугольная матрицы
 };
 
 //Структура "матрицы"
@@ -81,5 +82,19 @@ void Out_Diagonal_matrix(int N, Diagonal_matrix* D_m, ofstream& ofst);
 
 //Функция подсчета суммы элементов диагональной матрицы
 int Sum_Diagonal_matrix(int N, Diagonal_matrix* D_m);
+
+//Структура треугольной матрицы
+struct Triangular_matrix {
+    int* Array;
+};
+
+//Функция ввода треугольной матрицы
+Triangular_matrix* In_Triangular_matrix(int N, ifstream& ifst);
+
+//Функция вывода треугольной матрицы
+void Out_Triangular_matrix(int N, Triangular_matrix* T_m, ofstream& ofst);
+
+//Функция подсчета суммы элементов диагональной матрицы
+int Sum_Triangular_matrix(int N, Triangular_matrix* T_m);
 
 #endif //HEADER_H
