@@ -27,6 +27,8 @@ int main(int argc, char* argv[])
 
     Out_Container(Head, ofst);
 
+    Out_Only_Two_Dim(Head, ofst);
+
     Clear_Container(Head);
 
     ofst << "Empty container. " << endl;
