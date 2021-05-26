@@ -139,6 +139,20 @@ Matrix* In_Matrix(ifstream& ifst) {
         M = new Matrix(); //Выделяем память под матрицу
         M->K = TRIANGULAR_MATRIX; //Записываем тип матрицы
 
+        int K_Out = 0;
+
+        ifst >> K_Out; //Считываем способ вывода матрицы
+
+        if (K_Out == 1) {
+            M->K_O = BY_LINE;
+        }
+        else if (K_Out == 2) {
+            M->K_O = BY_COLUMN;
+        }
+        else if (K_Out == 3) {
+            M->K_O = ONE_DIMENSIONAL;
+        }
+
         ifst >> M->N; //Считываем размерность матрицы
 
         M->Obj = In_Triangular_matrix(M->N, ifst); //Считываем матрицу
@@ -158,7 +172,7 @@ void Out_Matrix(Matrix* M, ofstream& ofst) {
         Out_Diagonal_matrix(M->N, M->K_O, (Diagonal_matrix*)M->Obj, ofst); //Выводим диагональную матрицу
     }
     else if (M->K == TRIANGULAR_MATRIX) {
-        Out_Triangular_matrix(M->N, (Triangular_matrix*)M->Obj, ofst); //Выводим треугольную матрицу
+        Out_Triangular_matrix(M->N, M->K_O, (Triangular_matrix*)M->Obj, ofst); //Выводим треугольную матрицу
     }
     else {
         ofst << "Incorrect element!" << endl;
@@ -337,19 +351,51 @@ Triangular_matrix* In_Triangular_matrix(int N, ifstream& ifst) {
     return T_m;
 }
 
-void Out_Triangular_matrix(int N, Triangular_matrix* T_m, ofstream& ofst) {
+void Out_Triangular_matrix(int N, Key_Out K_O, Triangular_matrix* T_m, ofstream& ofst) {
     ofst << "It's triangular matrix with dimension = " << N << endl;
 
     int Array_index = 0; //Иднекс для прохода ненулевых элементов матрицы
 
+    int** Temp_array = new int* [N];
+
+    for (int i = 0; i < N; i++) {
+        Temp_array[i] = new int[N];
+    }
+
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++) {
             if (i >= j) {
-                ofst << T_m->Array[Array_index] << " ";
+                Temp_array[i][j] = T_m->Array[Array_index];
                 Array_index++;
             }
             else {
-                ofst << "0 ";
+                Temp_array[i][j] = 0;
+            }
+        }
+    }
+
+    if (K_O == BY_LINE) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                ofst << Temp_array[i][j] << " ";
+            }
+
+            ofst << endl;
+        }
+    }
+    else if (K_O == BY_COLUMN) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                ofst << Temp_array[j][i] << " ";
+            }
+
+            ofst << endl;
+        }
+    }
+    else if (K_O == ONE_DIMENSIONAL) {
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                ofst << Temp_array[i][j] << " ";
             }
         }
 

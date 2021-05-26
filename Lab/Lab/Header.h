@@ -100,7 +100,7 @@ struct Triangular_matrix {
 Triangular_matrix* In_Triangular_matrix(int N, ifstream& ifst);
 
 //Функция вывода треугольной матрицы
-void Out_Triangular_matrix(int N, Triangular_matrix* T_m, ofstream& ofst);
+void Out_Triangular_matrix(int N, Key_Out K_O, Triangular_matrix* T_m, ofstream& ofst);
 
 //Функция подсчета суммы элементов диагональной матрицы
 int Sum_Triangular_matrix(int N, Triangular_matrix* T_m);
