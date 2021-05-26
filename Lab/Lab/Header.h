@@ -14,11 +14,19 @@ enum Key {
     TRIANGULAR_MATRIX //Треугольная матрицы
 };
 
+//Способ вывода матрицы
+enum Key_Out {
+    BY_LINE, //По строкам
+    BY_COLUMN, //По столбцам
+    ONE_DIMENSIONAL //В виде одномерного массива
+};
+
 //Структура "матрицы"
 struct Matrix {
     Key K; //Идентификатор матрицы - диагональная или обычный двумерный массив
     void* Obj; //Указатель на конкретную матрицы
     int N; //Длина массива
+    Key_Out K_O; //Способ вывода матрицы
 };
 
 //Функция ввода матрицы
@@ -64,7 +72,7 @@ struct Two_dimensional_array {
 Two_dimensional_array* In_Two_dimensional_array(int N, ifstream& ifst);
 
 //Функция вывода двумерного массива
-void Out_Two_dimensional_array(int N, Two_dimensional_array* T_d_a, ofstream& ofst);
+void Out_Two_dimensional_array(int N, Key_Out K_O, Two_dimensional_array* T_d_a, ofstream& ofst);
 
 //Функция подсчета суммы элементов двумерного массива
 int Sum_Two_dimensional_array(int N, Two_dimensional_array* T_d_a);
@@ -78,7 +86,7 @@ struct Diagonal_matrix {
 Diagonal_matrix* In_Diagonal_matrix(int N, ifstream& ifst);
 
 //Функция вывода диагональной матрицы
-void Out_Diagonal_matrix(int N, Diagonal_matrix* D_m, ofstream& ofst);
+void Out_Diagonal_matrix(int N, Key_Out K_O, Diagonal_matrix* D_m, ofstream& ofst);
 
 //Функция подсчета суммы элементов диагональной матрицы
 int Sum_Diagonal_matrix(int N, Diagonal_matrix* D_m);
